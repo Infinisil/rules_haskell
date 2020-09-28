@@ -76,6 +76,7 @@ OTOOL = "/usr/bin/otool"
 
 def main():
     parsed = Args(load_response_files(sys.argv[1:]))
+    print("Action is " + parsed._action, flush=True)
 
     if parsed.linking:
         link(parsed.output, parsed.libraries, parsed.rpaths, parsed.args)
@@ -1019,6 +1020,8 @@ def run_cc(args, capture_output=False, exit_on_error=False, **kwargs):
     def _run_cc(args):
         # subprocess.run is not supported in the bindist CI setup.
         # subprocess.Popen does not support context manager on CI setup.
+        print("Executing cc command: " + " ".join([cc] + args), flush=True)
+        print("", flush=True)
         proc = subprocess.Popen([cc] + args, **kwargs)
 
         if capture_output:

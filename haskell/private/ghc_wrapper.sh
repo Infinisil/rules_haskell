@@ -13,6 +13,8 @@ if [ "$2" == "--persistent_worker" ]; then
     exec "${compile_flags[@]}" --persistent_worker
 else
     while IFS= read -r line; do extra_args+=("$line"); done < "$2"
+    echo "Executing ghc command: ${compile_flags[@]}" "${extra_args[@]}"
+    echo ""
     "${compile_flags[@]}" "${extra_args[@]}" 2>&1 \
       | while IFS= read -r line; do [[ $line =~ ^Loaded ]] || echo "$line"; done >&2
 fi
